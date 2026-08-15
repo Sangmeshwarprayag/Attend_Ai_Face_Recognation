@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>Student Dashboard</h1>
+
+<input id="prn" placeholder="Enter PRN">
+<button onclick="load()">View Attendance</button>
+
+<ul id="data"></ul>
+
+<script>
+
+const API="http://127.0.0.1:5000"
+
+function load(){
+fetch(API+"/student/"+prn.value)
+.then(r=>r.json())
+.then(d=>{
+data.innerHTML=""
+d.forEach(a=>{
+data.innerHTML+=`<li>${a.date} - ${a.status}</li>`
+})
+})
+}
+
+</script>
+
+</body>
+</html>

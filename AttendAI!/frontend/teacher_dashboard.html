@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>Teacher Dashboard</h1>
+
+<input id="prn" placeholder="PRN">
+<button onclick="mark()">Mark Attendance</button>
+
+<script>
+
+const API="http://127.0.0.1:5000"
+
+function mark(){
+fetch(API+"/mark",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({prn:prn.value})
+})
+.then(r=>r.json())
+.then(()=>alert("Marked"))
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Admin</title>
+</head>
+
+<body>
+
+<h1>Admin Dashboard</h1>
+
+<button onclick="loadStudents()">Load Students</button>
+
+<h2>Add Student</h2>
+<input id="name" placeholder="Name">
+<input id="prn" placeholder="PRN">
+<input id="course" placeholder="Course">
+<input id="division" placeholder="Division">
+<input id="password" placeholder="Password">
+<button onclick="addStudent()">Add</button>
+
+<h2>Students</h2>
+<ul id="list"></ul>
+
+<h2>Report</h2>
+<input id="r_course" placeholder="Course">
+<input id="r_division" placeholder="Division">
+<button onclick="report()">Generate</button>
+
+<ul id="reportList"></ul>
+
+<script>
+
+const API="http://127.0.0.1:5000"
+
+function loadStudents(){
+fetch(API+"/students")
+.then(r=>r.json())
+.then(d=>{
+list.innerHTML=""
+d.forEach(s=>{
+list.innerHTML+=`<li>${s.name}</li>`
+})
+})
+}
+
+function addStudent(){
+fetch(API+"/add_student",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({
+name:name.value,
+prn:prn.value,
+course:course.value,
+division:division.value,
+password:password.value
+})
+})
+.then(r=>r.json())
+.then(d=>alert(d.message))
+}
+
+function report(){
+fetch(API+"/report",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({
+course:r_course.value,
+division:r_division.value
+})
+})
+.then(r=>r.json())
+.then(d=>{
+reportList.innerHTML=""
+d.data.forEach(s=>{
+reportList.innerHTML+=`<li>${s.name} - ${s.status}</li>`
+})
+})
+}
+
+</script>
+
+</body>
+</html>
